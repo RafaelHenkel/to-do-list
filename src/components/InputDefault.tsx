@@ -1,15 +1,17 @@
 interface InputDefaultProps {
   label: string;
   value: string;
-  key: string;
+  name: string;
   action: (value: string) => void;
 }
 
-function InputDefault({ action, label, value, key }: InputDefaultProps) {
+function InputDefault({ action, label, value, name }: InputDefaultProps) {
   return (
     <>
-      <label htmlFor={key}>{label} </label>
-      <input type="text" name={key} value={value} onChange={e => action(e.target.value)} />
+      <label htmlFor={name} style={{ color: '#fff' }}>
+        {label}{' '}
+      </label>
+      <input type="text" name={name} value={value} onChange={e => action(e.target.value)} />
     </>
   );
 }

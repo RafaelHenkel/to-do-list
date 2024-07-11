@@ -1,12 +1,15 @@
 import './App.css';
 import DefaultTheme from './config/theme/DefaultTheme';
+import TaskProvider from './contexts/TaskContext';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
-    <DefaultTheme>
-      <AppRoutes />
-    </DefaultTheme>
+    <TaskProvider>
+      <DefaultTheme>
+        <AppRoutes />
+      </DefaultTheme>
+    </TaskProvider>
   );
 }
 

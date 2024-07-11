@@ -21,6 +21,10 @@
 body {
   margin: 0 auto;
   padding: 0 auto;
+  color: #fff;
+}
+p {
+  color: #fff;
 }
 
 a,
@@ -46,6 +50,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: #fff;
   cursor: pointer;
   transition: border-color 0.25s;
 }
