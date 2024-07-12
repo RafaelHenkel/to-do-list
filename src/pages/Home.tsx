@@ -1,20 +1,20 @@
-import { useContext, useState } from 'react';
 import InputDefault from '../components/InputDefault';
 import PageDefault from '../components/PageDefault';
 import ButtonDefault from '../components/ButtonDefault';
-import { TaskContext } from '../contexts/TaskContext';
 import Feedback from '../components/feedback/Feedback';
+import { useState } from 'react';
 
 function Home() {
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [stats, setStatus] = useState<string>('progress');
+  const [task, setTask] = useState<string>('');
+  const [finished] = useState<boolean>(false);
   const [showFeedBack, setShowFeedBack] = useState<boolean>(false);
-  const taskContext = useContext(TaskContext);
+  const [list, setList] = useState<TaskType[]>([]);
 
   function handleClick() {
-    if (name && description) {
-      taskContext?.setData([...taskContext.data, { name, description, stats }]);
+    if (task) {
+      setList([...list, { task, finished }]);
+      console.log(list);
+
       openFeedBack();
     }
   }
@@ -25,28 +25,45 @@ function Home() {
       setShowFeedBack(false);
     }, 4000);
   }
+
+  function finishTask(task: TaskType) {
+    task.finished = true;
+  }
+
+  function deleteTask(task: TaskType) {
+    const filterTask = list.filter(item => item.task !== task.task);
+    if (filterTask) {
+      setList(filterTask);
+      console.log(list);
+    }
+  }
+
   return (
     <>
       <PageDefault>
         <h1>Adicionar tarefa</h1>
-        <InputDefault action={setName} name="name" label="Nome" value={name} />
-        <InputDefault action={setDescription} name="description" label="Descrição" value={description} />
-        <div>
-          <div>
-            <label htmlFor="stats">Progresso</label>
-            <input
-              type="radio"
-              name="stats"
-              id="progress"
-              value="progress"
-              onChange={ev => setStatus(ev.target.value)}
-              checked
-            />
-          </div>
-          <label htmlFor="stats">Finished</label>
-          <input type="radio" name="stats" id="finished" value="finished" onChange={ev => setStatus(ev.target.value)} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
+          <InputDefault action={setTask} name="task" label="Task" value={task} />
+          <ButtonDefault label="Adicionar" action={handleClick} />
+          {list.map(task => (
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <p>{task.task}</p>
+              <p>{task.finished ? 'Finalizada' : 'Não finalizada'}</p>
+              <div>
+                <button onClick={() => finishTask(task)}>Finalizar</button>
+                <button onClick={() => deleteTask(task)}>Deletar</button>
+              </div>
+            </div>
+          ))}
         </div>
-        <ButtonDefault label="Adicionar" action={handleClick} />
         {showFeedBack && <Feedback msg="Tarefa cadastrada com sucesso!" />}
       </PageDefault>
     </>
