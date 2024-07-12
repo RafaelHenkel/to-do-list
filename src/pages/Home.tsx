@@ -9,7 +9,7 @@ function Home() {
   const [task, setTask] = useState<string>('');
   const [finished] = useState<boolean>(false);
   const [showFeedBack, setShowFeedBack] = useState<boolean>(false);
-  const [list, setList] = useState<TaskType[]>([]);
+  // const [list, setList] = useState<TaskType[]>([]);
   const taskContext = useContext(TaskContext);
 
   function handleClick() {
